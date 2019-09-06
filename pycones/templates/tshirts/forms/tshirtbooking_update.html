@@ -1,3 +1,4 @@
+{% extends 'tshirts/show.html' %}
 {% load i18n static %}
 
 {% block form %}
@@ -23,7 +24,7 @@
       <div class="form-group{% if form.nif.errors %} has-error{% endif %} col col-12">
 
         {# Field & label #}
-        <label for="{{ form.nif.id_for_label }}">{% trans 'NIF/NIE' %}</label>
+        <label for="{{ form.nif.id_for_label }}">{{ form.nif.label }}</label>
         {{ form.nif }}
 
         {# Errors #}
@@ -37,7 +38,7 @@
       <div class="form-group{% if form.nif.errors %} has-error{% endif %} col col-md-6">
 
         {# Field & label #}
-        <label for="{{ form.thirt_size.id_for_label }}">{{ form.tshirt_size.label }}</label>
+        <label for="{{ form.tshirt_size.id_for_label }}">{{ form.tshirt_size.label }}</label>
         {{ form.tshirt_size }}
 
         {# Errors #}
