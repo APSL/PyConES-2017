@@ -70,6 +70,7 @@ urlpatterns += [
     url(r"schedule\.ics", icalendar_view, name="schedule_icalendar"),
     url(r"^taggit_autosuggest/", include("taggit_autosuggest.urls")),
     url(r"^i18n/", include("django.conf.urls.i18n")),
+    url(r'^filer/', include('filer.urls')),
 ]
 
 # Override all links if the landing page is set

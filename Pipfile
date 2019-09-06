@@ -33,6 +33,10 @@ Pillow = "==6.0.0"
 Markdown = "==3.1.1"
 django_coverage_plugin = "*"
 Werkzeug = "*"
+django-mptt = "==0.10.0"
+easy-thumbnails = "==2.6"
+django-polymorphic = "==1.3.1"
+django-filer = "==1.5.0"
 
 [requires]
 python_version = "3.7"

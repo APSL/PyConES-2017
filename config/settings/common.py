@@ -172,7 +172,11 @@ DJANGO_APPS = (
     "modeltranslation",
     "django.contrib.admin",
 )
-THIRD_PARTY_APPS = tuple()
+THIRD_PARTY_APPS = (
+    'easy_thumbnails',
+    'filer',
+    'mptt',
+)
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
@@ -278,6 +282,18 @@ MODELTRANSLATION_DEFAULT_LANGUAGE = "es"
 MODELTRANSLATION_FALLBACK_LANGUAGES = ("es", "en")
 MODELTRANSLATION_LANGUAGES = ("es", "en")
 
+# FILER SETTINGS
+# ------------------------------------------------------------------------------
+# See : https://django-filer.readthedocs.io/en/latest/installation.html#configuration
+THUMBNAIL_HIGH_RESOLUTION = True
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    # 'easy_thumbnails.processors.scale_and_crop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
+
 # PROJECT CUSTOM SETTINGS
 # ------------------------------------------------------------------------------
 # This values may vary during the life of the conference.
@@ -337,3 +353,41 @@ CONFIGURATION_DEFAULT_OPTIONS = {
     "activate_reviews": {"value": 0, "type": 1, "public_name": "Activate reviews"},
 }
 
+FILER_STORAGES = {
+    'public': {
+        'main': {
+            'ENGINE': 'filer.storage.PublicFileSystemStorage',
+            'OPTIONS': {
+                'location': '/tmp/filer',
+                'base_url': '/media/filer/',
+            },
+            'UPLOAD_TO': 'filer.utils.generate_filename.randomized',
+            'UPLOAD_TO_PREFIX': 'filer_public',
+        },
+        'thumbnails': {
+            'ENGINE': 'filer.storage.PublicFileSystemStorage',
+            'OPTIONS': {
+                'location': '/tmp/filer_thumbnails',
+                'base_url': '/media/filer_thumbnails/',
+            },
+        },
+    },
+    'private': {
+        'main': {
+            'ENGINE': 'filer.storage.PrivateFileSystemStorage',
+            'OPTIONS': {
+                'location': '/tmp/smedia/filer',
+                'base_url': '/smedia/filer/',
+            },
+            'UPLOAD_TO': 'filer.utils.generate_filename.randomized',
+            'UPLOAD_TO_PREFIX': 'filer_public',
+        },
+        'thumbnails': {
+            'ENGINE': 'filer.storage.PrivateFileSystemStorage',
+            'OPTIONS': {
+                'location': '/tmp/smedia/filer_thumbnails',
+                'base_url': '/smedia/filer_thumbnails/',
+            },
+        },
+    },
+}
