@@ -6,21 +6,29 @@
 
 <form id="identificator" class="product-payment-details" method="POST">
 {% csrf_token %}
-<h4 class="product-title mb-2">Camiseta oficial Pycon Alicante 2019</h4>
-<p>Para poder reservar una camiseta deberás introducir tu e-mail y el número de entrada</p>
-<ul>
-  {% for error in form.non_field_errors %}
-<div class="alert alert-danger" role="alert">
-{{ error }}
-</div>
-  {% endfor %}
-</ul>
-<label for="{{ form.email.id_for_label}}">Email</label>
-{{form.email}}
+  <h4 class="product-title mb-2">{% trans 'Camiseta oficial Pycon Alicante 2019' %}</h4>
+    <p>{% trans 'Para poder reservar una camiseta deberás introducir tu e-mail y el número de entrada' %}</p>
 
-<label for="{{ form.booking_id.id_for_label}}">Nº de entrada</label>
-{{form.booking_id}}
+  {# General errors #}
+  <ul>
+    {% for error in form.field_errors %}
+      <div class="alert alert-danger" role="alert">
+        {{ error }}
+      </div>
+    {% endfor %}
+    </ul>
 
-<input type="submit" id="goToProduct" class="btn btn-primary btn-lg btn-block" value="{% trans "Entrar" %}">
+    {# Fields #}
+
+    {# EMAIL #}
+    <label for="{{ form.email.id_for_label}}">{% trans 'Email' %}</label>
+      {{form.email}}
+
+    {# Booking_id #}
+    <label for="{{ form.booking_id.id_for_label}}">{% trans 'Nº de entrada' %}</label>
+      {{form.booking_id}}
+
+    <input type="submit" id="goToProduct" class="btn btn-primary btn-lg btn-block" value="{% trans "Entrar" %}">
 </form>
+
 {% endblock %}

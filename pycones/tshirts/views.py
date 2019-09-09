@@ -1,8 +1,10 @@
 
+from django.contrib import messages
 from django.http import Http404
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 from django.views.generic.edit import UpdateView
+from django.utils.translation import ugettext_lazy as _
 
 from pycones.tshirts.mixins import DisabledByOptionViewMixin
 from pycones.tshirts.forms import TShirtForm, EntryForm
@@ -39,6 +41,22 @@ class TshirtUpdate(DisabledByOptionViewMixin, UpdateView):
         else:
             raise Http404
         return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.session.keys():
+            session = self.request.session['tshirt_authed']
+            obj = TshirtBooking.objects.get_or_create(
+                email=session['email'],
+                booking_id=session['booking_id'], )
+            obj = obj[0]
+
+            # if NIF field is not empty show a message informing about editing entry
+            if obj.nif is not '':
+                messages.add_message(self.request, messages.INFO, _('Estás editando tu entrada'))
+
+        return context
 
     def form_valid(self, form):
         valid = super().form_valid(form)

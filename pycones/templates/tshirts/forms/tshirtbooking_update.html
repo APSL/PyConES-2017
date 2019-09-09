@@ -5,6 +5,15 @@
   <form id="orderProduct" class="product-payment-detail" method="POST">
     {% csrf_token %}
 
+    {# Messages #}
+    {% if messages %}
+    <ul class="messages" style="list-style-type:none">
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
     <h4 class="product-title mb-2">{% trans 'Camiseta oficial Pycon Alicante 2019' %}</h4>
     <p class="mb-0">
       {% trans 'Introduzca su NIF/NIE y eliga el tamaño y corte de la camisa.' %}
